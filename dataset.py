@@ -14,8 +14,8 @@ def get_cifar100_loaders(data_dir: str, batch_size: int = 128, num_workers: int 
     train_ds = datasets.CIFAR100(root=data_dir, train=True, download=True, transform=train_tf)
     test_ds = datasets.CIFAR100(root=data_dir, train=False, download=True, transform=test_tf)
 
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True)
-    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True)
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=False, persistent_workers=(num_workers > 0))
+    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=False, persistent_workers=(num_workers > 0))
     return train_loader, test_loader
 
 class CIFAR100C(Dataset):
@@ -52,7 +52,7 @@ def get_cifar100c_loaders(data_dir: str, batch_size: int = 128, num_workers: int
     for corr in CIFAR100C.CORRUPTIONS:
         dl_dict[corr] = [
             DataLoader(CIFAR100C(root=data_dir, corruption=corr, severity=s, transform=norm),
-                       batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True)
+                       batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=False, persistent_workers=(num_workers > 0))
             for s in severities
         ]
     return dl_dict

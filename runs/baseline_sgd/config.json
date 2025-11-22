@@ -1,0 +1,12 @@
+{
+  "data_dir": "./data",
+  "cifar100c_dir": "./cifar100-c",
+  "out_dir": "./runs/baseline_sgd",
+  "epochs": 100,
+  "batch_size": 128,
+  "lr": 0.1,
+  "momentum": 0.9,
+  "weight_decay": 0.0005,
+  "seed": 42,
+  "num_workers": 0
+}
